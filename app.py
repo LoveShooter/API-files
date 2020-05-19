@@ -13,7 +13,7 @@ if not os.path.exists(UPLOAD_DIRECTORY):
 app = Flask(__name__)
 
 
-@app.route("/files", methods=["GET"])   # Endpoint to list files on the server
+@app.route('/files', methods=['GET'])   # Endpoint to list files on the server
 def listFiles():   
 
     files = []
@@ -25,17 +25,17 @@ def listFiles():
     return jsonify(files)
 
 
-@app.route("/files/<path:path>", methods=["GET"]) # Download a file
+@app.route('/files/<path:path>', methods=['GET']) # Download a file
 def getFile(path):
     return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
 
 
-@app.route("/files/<filename>", methods=["POST"]) # Upload File
+@app.route('/files/<filename>', methods=['POST']) # Upload File
 def postFile(filename):
-    if "/" in filename:  # Return 400 BAD REQUEST
+    if '/' in filename:  # Return 400 BAD REQUEST
         abort(400, "No SubDir's Allowed")
 
-    with open(os.path.join(UPLOAD_DIRECTORY, filename), "wb") as fp:
+    with open(os.path.join(UPLOAD_DIRECTORY, filename), 'wb') as fp:
         fp.write(request.data)
 
     return jsonify(201, 'File uploaded successfully!') # Return 201 CREATED
@@ -43,17 +43,13 @@ def postFile(filename):
 
 @app.route('/delfiles/<filename>', methods=['DELETE'])  # Del file by filename
 def delFile(filename):
-    
-    files = []
-
-    for filename in os.listdir(UPLOAD_DIRECTORY):     # Find in dir
-        filePath = os.path.join(UPLOAD_DIRECTORY, filename) 
-        if os.path.isfile(filePath):
-            files.append(filename)
-            os.remove(filePath)
-            response = {"message": "File Deleted"}
-        else:
-            response = {"message": "File Not Found!"}
+    fileExists = os.path.exists(UPLOAD_DIRECTORY)
+    filePath = os.path.join(UPLOAD_DIRECTORY, filename) 
+    if filename in filePath:
+        os.remove(filePath)
+        response = {"message": "File Deleted"}
+    else:
+        response = {"message": "File Not Found!"}
     
     return jsonify(response), 200
 
