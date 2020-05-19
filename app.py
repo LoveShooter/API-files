@@ -43,9 +43,8 @@ def postFile(filename):
 
 @app.route('/delfiles/<filename>', methods=['DELETE'])  # Del file by filename
 def delFile(filename):
-    fileExists = os.path.exists(UPLOAD_DIRECTORY)
     filePath = os.path.join(UPLOAD_DIRECTORY, filename) 
-    if filename in filePath:
+    if os.path.isfile(filePath):
         os.remove(filePath)
         response = {"message": "File Deleted"}
     else:
