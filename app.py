@@ -53,6 +53,23 @@ def delFile(filename):
     return jsonify(response), 200
 
 
+
+@app.route('/folders', methods=['GET'])   # Endpoint to list files on the server
+def listFolders():   
+    folders = []
+
+    for dir in os.listdir(UPLOAD_DIRECTORY):
+        if os.path.exists(UPLOAD_DIRECTORY):
+            folders.append(dir)
+    return jsonify(folders)
+
+
+
+
+
+
+
+
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
