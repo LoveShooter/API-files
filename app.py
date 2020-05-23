@@ -64,6 +64,18 @@ def listFolders():
     return jsonify(folders)
 
 
+@app.route('/folders/<dirName>', methods=['GET'])
+def createFolders(dirName):
+    filePath = os.path.join(UPLOAD_DIRECTORY)
+    if os.path.exists(UPLOAD_DIRECTORY):
+        response = {"message": "Folder already exists!"}
+    else:
+        os.chdir(filePath)
+        os.mkdir(dirName)
+        response = {"message": "Folder created"}
+    return jsonify (response), 200
+    
+
 
 
 
