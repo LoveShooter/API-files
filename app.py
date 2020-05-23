@@ -64,7 +64,7 @@ def listFolders():
     return jsonify(folders)
 
 
-@app.route('/folders/<dirName>', methods=['GET'])
+@app.route('/createfolder/<dirName>', methods=['GET'])
 def createFolders(dirName):
     filePath = os.path.join(UPLOAD_DIRECTORY)
     if os.path.exists(dirName):
@@ -75,6 +75,17 @@ def createFolders(dirName):
         response = {"message": "Folder created"}
     return jsonify (response), 200
     
+
+@app.route('/delfolder/<dirDel>', methods=['DELETE'])
+def deleteFolder(dirDel):
+    filePath = os.listdir(UPLOAD_DIRECTORY)
+    if os.path.exists(dirDel):
+        os.chdir(filePath)
+        os.rmdir(dirDel)
+        response = {"message": "Folder deleted successfully."}
+    else:
+        response = {"message": "Folder NOT found!"}
+    return jsonify (response), 200
 
 
 
