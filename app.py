@@ -67,7 +67,7 @@ def listFolders():
 @app.route('/folders/<dirName>', methods=['GET'])
 def createFolders(dirName):
     filePath = os.path.join(UPLOAD_DIRECTORY)
-    if os.path.exists(UPLOAD_DIRECTORY):
+    if os.path.exists(dirName):
         response = {"message": "Folder already exists!"}
     else:
         os.chdir(filePath)
