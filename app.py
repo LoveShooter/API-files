@@ -1,5 +1,5 @@
 import os
-
+import os.path
 from flask import Flask, request, abort, jsonify, send_from_directory
 
 
@@ -25,9 +25,11 @@ def listFiles():
     return jsonify(files)
 
 
+
 @app.route('/files/<path:path>', methods=['GET']) # Download a file
 def getFile(path):
     return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
+
 
 
 @app.route('/files/<filename>', methods=['POST']) # Upload File
@@ -39,6 +41,7 @@ def postFile(filename):
         fp.write(request.data)
 
     return jsonify(201, 'File uploaded successfully!') # Return 201 CREATED
+
 
 
 @app.route('/delfiles/<filename>', methods=['DELETE'])  # Del file by filename
@@ -64,6 +67,7 @@ def listFolders():
     return jsonify(folders)
 
 
+
 @app.route('/createfolder/<dirName>', methods=['GET'])
 def createFolders(dirName):
     filePath = os.path.join(UPLOAD_DIRECTORY)
@@ -74,22 +78,19 @@ def createFolders(dirName):
         os.mkdir(dirName)
         response = {"message": "Folder created"}
     return jsonify (response), 200
-    
+
+
 
 @app.route('/delfolder/<dirDel>', methods=['DELETE'])
 def deleteFolder(dirDel):
-    filePath = os.listdir(UPLOAD_DIRECTORY)
+    filePath = os.path.join(UPLOAD_DIRECTORY)
+    os.chdir(filePath)
     if os.path.exists(dirDel):
-        os.chdir(filePath)
         os.rmdir(dirDel)
         response = {"message": "Folder deleted successfully."}
     else:
         response = {"message": "Folder NOT found!"}
     return jsonify (response), 200
-
-
-
-
 
 
 
