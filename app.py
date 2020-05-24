@@ -97,8 +97,8 @@ def deleteFolder(dirDel):
 @app.route('/delallfolders', methods=['DELETE'])
 def delallfolders():
     path = os.path.join(UPLOAD_DIRECTORY)
-    os.unlink(path)
-    for dir in os.listdir(filePath):
+    
+    for dir in os.listdir(path):
         if os.path.exists(path):
             shutil.rmtree(path, ignore_errors=True)
             response = {"message": "All folders deleted"}
