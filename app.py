@@ -104,7 +104,10 @@ def delallfolders():
             response = {"message": "All folders deleted"}
         else:
             response = {"message": "Folders NOT found"}
-    return jsonify(response), 200
+    return jsonify (response), 200
+
+
+
 
 
 
