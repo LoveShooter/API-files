@@ -1,5 +1,6 @@
 import os
-import os.path
+import shutil
+
 from flask import Flask, request, abort, jsonify, send_from_directory
 
 
@@ -91,6 +92,20 @@ def deleteFolder(dirDel):
     else:
         response = {"message": "Folder NOT found!"}
     return jsonify (response), 200
+
+
+@app.route('/delallfolders', methods=['DELETE'])
+def delallfolders():
+    path = os.path.join(UPLOAD_DIRECTORY)
+    os.unlink(path)
+    for dir in os.listdir(filePath):
+        if os.path.exists(path):
+            shutil.rmtree(path, ignore_errors=True)
+            response = {"message": "All folders deleted"}
+        else:
+            response = {"message": "Folders NOT found"}
+    return jsonify(response), 200
+
 
 
 
