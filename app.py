@@ -117,7 +117,7 @@ def delAllFoldersTree():
 
 
 
-@app.route('/delallemptyfolders', methods=['DELETE'])     # Delete empty folders
+@app.route('/delallemptyfolders', methods=['DELETE'])     # Delete only all empty folders
 def delAllEmptyDirs():
     folders = []
 
