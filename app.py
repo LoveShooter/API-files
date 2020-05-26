@@ -58,6 +58,14 @@ def delFile(filename):
 
 
 
+
+
+
+
+
+
+
+
 @app.route('/folders', methods=['GET'])   # List all folders in Path
 def listFolders():   
     folders = []
@@ -96,17 +104,17 @@ def deleteFolder(dirDel):
 
 
 
-@app.route('/delallfolders', methods=['DELETE'])        # Delete all folders + tree
+@app.route('/delallfolders', methods=['DELETE'])        # Delete all folders tree + included files in folders 
 def delAllFoldersTree():
-    path = os.path.join(UPLOAD_DIRECTORY)
-    
-    for dir in os.listdir(path):
+    for dir in os.listdir(UPLOAD_DIRECTORY):
+        path = os.path.join(UPLOAD_DIRECTORY, dir)
         if os.path.exists(path):
             shutil.rmtree(path, ignore_errors=True)
             response = {"message": "All folders deleted"}
         else:
             response = {"message": "Folders NOT found"}
     return jsonify (response), 200
+
 
 
 @app.route('/delallemptyfolders', methods=['DELETE'])     # Delete empty folders
@@ -118,8 +126,10 @@ def delAllEmptyDirs():
         if os.path.isdir(pathToDirs):
             folders.append(dirs)
             os.rmdir(pathToDirs)
-            response = {"message": "All Folders deleted"}
+            response = {"message": "All Folders deleted"}    # ?
     return jsonify(response)
+
+
 
 
 
