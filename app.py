@@ -63,7 +63,7 @@ def listFolders():
     folders = []
 
     for dir in os.listdir(UPLOAD_DIRECTORY):
-        if os.path.exists(UPLOAD_DIRECTORY):
+        if os.path.isdir(UPLOAD_DIRECTORY):
             folders.append(dir)
     return jsonify(folders)
 
@@ -94,8 +94,9 @@ def deleteFolder(dirDel):
     return jsonify (response), 200
 
 
+
 @app.route('/delallfolders', methods=['DELETE'])
-def delallfolders():
+def delAllFoldersTree():
     path = os.path.join(UPLOAD_DIRECTORY)
     
     for dir in os.listdir(path):
@@ -107,6 +108,18 @@ def delallfolders():
     return jsonify (response), 200
 
 
+@app.route('/delallemptyfolders', methods=['DELETE'])
+def delAllEmptyDirs():
+    
+    folders = []
+
+    for dirs in os.listdir(UPLOAD_DIRECTORY):
+        pathToDirs = os.path.join(UPLOAD_DIRECTORY, dirs)
+        if os.path.isdir(pathToDirs):
+            folders.append(dirs)
+            os.rmdir(pathToDirs)
+            response = {"message": "All Folders deleted"}
+    return jsonify(response)
 
 
 
