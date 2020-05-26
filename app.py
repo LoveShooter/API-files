@@ -58,18 +58,19 @@ def delFile(filename):
 
 
 
-@app.route('/folders', methods=['GET'])   # Endpoint to list files on the server
+@app.route('/folders', methods=['GET'])   # List all folders in Path
 def listFolders():   
     folders = []
 
-    for dir in os.listdir(UPLOAD_DIRECTORY):
-        if os.path.isdir(UPLOAD_DIRECTORY):
-            folders.append(dir)
+    for dirs in os.listdir(UPLOAD_DIRECTORY):
+        pathToDirs = os.path.join(UPLOAD_DIRECTORY, dirs)
+        if os.path.isdir(pathToDirs):
+            folders.append(dirs)
     return jsonify(folders)
 
 
 
-@app.route('/createfolder/<dirName>', methods=['GET'])
+@app.route('/createfolder/<dirName>', methods=['GET'])   # Creates 1 folder with a name entry
 def createFolders(dirName):
     filePath = os.path.join(UPLOAD_DIRECTORY)
     if os.path.exists(dirName):
@@ -82,7 +83,7 @@ def createFolders(dirName):
 
 
 
-@app.route('/delfolder/<dirDel>', methods=['DELETE'])
+@app.route('/delfolder/<dirDel>', methods=['DELETE'])   # Delete 1 folder
 def deleteFolder(dirDel):
     filePath = os.path.join(UPLOAD_DIRECTORY)
     os.chdir(filePath)
@@ -95,7 +96,7 @@ def deleteFolder(dirDel):
 
 
 
-@app.route('/delallfolders', methods=['DELETE'])
+@app.route('/delallfolders', methods=['DELETE'])        # Delete all folders + tree
 def delAllFoldersTree():
     path = os.path.join(UPLOAD_DIRECTORY)
     
@@ -108,9 +109,8 @@ def delAllFoldersTree():
     return jsonify (response), 200
 
 
-@app.route('/delallemptyfolders', methods=['DELETE'])
+@app.route('/delallemptyfolders', methods=['DELETE'])     # Delete empty folders
 def delAllEmptyDirs():
-    
     folders = []
 
     for dirs in os.listdir(UPLOAD_DIRECTORY):
