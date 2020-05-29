@@ -1,21 +1,9 @@
-version: 2.1
-
-orbs:
-  python: circleci/python:3.8.3
+version: 2
 
 jobs:
-  build-and-test:
-    executor: python/default
-    steps:
-      - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
-      - run:
-          command: ./app.py test
-          name: Test
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
+    build:       # name of job
+        docker:
+            - image: circleci\python:3.8.3-stretch-browsers
+        steps:
+            - checkout
+            - run: pip install -r requirements.txt
