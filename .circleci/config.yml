@@ -1,11 +1,8 @@
 version: 2
-
 jobs:
-    build:       # name of job
-        docker:
-            - image: circleci\python:3.8.3-stretch-browsers
-            environment:
-                FLASK_CONFIG: testing
-        steps:
-            - checkout
-            - run: pip install -r requirements.txt
+  build:
+    docker:
+      - image: circleci/python:3.8.3-stretch-browsers
+    steps:
+      - checkout
+      - run: pip install -r requirements.txt
