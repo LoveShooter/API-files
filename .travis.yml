@@ -6,5 +6,4 @@ install:
 
 
 script:
-  - pytest
-  - test_app
+  - python -m pytest -v
