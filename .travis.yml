@@ -6,4 +6,9 @@ install:
 
 
 script:
-  - python -m pytest -v
+  - coverage erase
+  - coverage run test_webapp.py && coverage html
+
+
+after_success:
+  - codecov
