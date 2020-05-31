@@ -6,8 +6,7 @@ install:
 
 
 script:
-  - coverage erase
-  - coverage run test_webapp.py && coverage html
+  - coverage run test_app.py && coverage html
 
 
 after_success:
