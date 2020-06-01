@@ -7,7 +7,7 @@ install:
 
 
 script:
-  - pylint --output-format=text test_app.py
+  - pylint test_app.py
   - pytest -v
 
 
