@@ -10,6 +10,7 @@ script:
   - coverage erase
   - coverage run test_app.py && coverage html
   - pylint --output-format=text test_app.py
+  - pytest
 
 
 after_success:
