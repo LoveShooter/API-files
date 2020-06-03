@@ -1,8 +1,8 @@
 import os
 import shutil
 
-from flask import Flask, request, abort, jsonify, send_from_directory
-
+from flask import Flask, request, redirect, abort, jsonify, send_from_directory
+from werkzeug.utils import secure_filename
 
 UPLOAD_DIRECTORY = "g:/OneDrive/coding/python/PythonPractice/testfolder/api_uploaded_files"
 print(os.getcwd()) # Show work dir
@@ -58,12 +58,40 @@ def delFile(filename):
 
 
 
-
-
-
-
-
-
+@app.route('/multiple-files-upload', methods=['POST'])
+def upload_file():
+	# check if the post request has the file part
+	if 'files[]' not in request.files:
+		resp = jsonify({'message' : 'No file part in the request'})
+		resp.status_code = 400
+		return resp
+	
+	files = request.files.getlist('files[]')
+	
+	errors = {}
+	success = False
+	
+	for file in files:		
+		if file and file.filename:
+			filename = secure_filename(file.filename)
+			file.save(os.path.join((UPLOAD_DIRECTORY), filename))
+			success = True
+		else:
+			errors[file.filename] = 'File type is not allowed'
+	
+	if success and errors:
+		errors['message'] = 'File(s) successfully uploaded'
+		resp = jsonify(errors)
+		resp.status_code = 500
+		return resp
+	if success:
+		resp = jsonify({'message' : 'Files successfully uploaded'})
+		resp.status_code = 201
+		return resp
+	else:
+		resp = jsonify(errors)
+		resp.status_code = 500
+		return resp
 
 
 @app.route('/folders', methods=['GET'])   # List all folders in Path
@@ -128,9 +156,6 @@ def delAllEmptyDirs():
             os.rmdir(pathToDirs)
             response = {"message": "All Folders deleted"}    # ?
     return jsonify(response)
-
-
-
 
 
 
