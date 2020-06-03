@@ -57,6 +57,10 @@ def delFile(filename):
     return jsonify(response), 200
 
 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/multiple-files-upload', methods=['POST'])
 def upload_file():
@@ -72,26 +76,22 @@ def upload_file():
 	success = False
 	
 	for file in files:		
-		if file and file.filename:
+		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join((UPLOAD_DIRECTORY), filename))
 			success = True
 		else:
 			errors[file.filename] = 'File type is not allowed'
 	
-	if success and errors:
-		errors['message'] = 'File(s) successfully uploaded'
-		resp = jsonify(errors)
-		resp.status_code = 500
-		return resp
 	if success:
-		resp = jsonify({'message' : 'Files successfully uploaded'})
-		resp.status_code = 201
-		return resp
+		response = jsonify({'message' : 'Files successfully uploaded'})
+		response.status_code = 201
+		return response
 	else:
-		resp = jsonify(errors)
-		resp.status_code = 500
-		return resp
+		response = jsonify(errors)
+		response.status_code = 500
+		return response
+
 
 
 @app.route('/folders', methods=['GET'])   # List all folders in Path
