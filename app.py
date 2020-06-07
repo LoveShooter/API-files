@@ -78,7 +78,7 @@ def upload_file():
 	success = False
 	
 	for file in files:		
-		if file and allowed_file(file.filename):
+		if file and allowed_file(file.filename):   #allowed_file(filename) to allow user only upload allowed file types
 			filename = secure_filename(file.filename)
 			file.save(os.path.join((UPLOAD_DIRECTORY), filename))
 			success = True
