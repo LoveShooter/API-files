@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('template_docker') {
-                    sh 'docker build -t exampletoolbox:latest . '
+                    sh 'docker build -t loveshooter/exampletoolbox:latest . '
                 }
             }
         }
