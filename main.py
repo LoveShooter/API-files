@@ -52,7 +52,7 @@ def postFile(filename):
 
 
 
-@app.route('/delfiles/<filename>', methods=['DELETE'])  # Del file by filename
+@app.route('/del-files/<filename>', methods=['DELETE'])  # Del file by filename
 def delFile(filename):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'], filename) 
     if os.path.isfile(filePath):
@@ -109,7 +109,7 @@ def listFolders():
 
 
 
-@app.route('/createfolder/<dirName>', methods=['GET'])   # Creates 1 folder with a name entry
+@app.route('/create-folder/<dirName>', methods=['GET'])   # Creates 1 folder with a name entry
 def createFolders(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
@@ -122,7 +122,7 @@ def createFolders(dirName):
 
 
 
-@app.route('/delfolder/<dirDel>', methods=['DELETE'])   # Delete 1 folder
+@app.route('/del-folder/<dirDel>', methods=['DELETE'])   # Delete 1 folder
 def deleteFolder(dirDel):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     os.chdir(filePath)
@@ -135,7 +135,7 @@ def deleteFolder(dirDel):
 
 
 
-@app.route('/delallfolders', methods=['DELETE'])        # Delete all folders tree + included files in folders 
+@app.route('/del-all-folders', methods=['DELETE'])        # Delete all folders tree + included files in folders 
 def delAllFoldersTree():
     for dir in os.listdir(app.config['UPLOAD_DIRECTORY']):
         path = os.path.join(app.config['UPLOAD_DIRECTORY'], dir)
@@ -148,7 +148,7 @@ def delAllFoldersTree():
 
 
 
-@app.route('/delallemptyfolders', methods=['DELETE'])     # Delete only all empty folders
+@app.route('/del-all-empty-folders', methods=['DELETE'])     # Delete only all empty folders
 def delAllEmptyDirs():
     folders = []
 
