@@ -166,8 +166,8 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/<dirName>/<fileName>', methods=['POST, GET'])
-def uploadFolders(dirName):
+@app.route('/upload-folder/<dirName>/<fileName>', methods=['POST'])
+def uploadFolders(dirName, fileName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
         response = {"message": "Folder already exists!"}
@@ -175,15 +175,12 @@ def uploadFolders(dirName):
         os.chdir(filePath)
         os.mkdir(dirName)
         response = {"message": "Folder Uploaded"}
-    return jsonify (response), 200
-def uploadFile(fileName):
-    filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
-    if os.path.exists(fileName):
-        response = {"message": "File already exists!"}
-    else:
-        os.chdir(filePath)
-        os.mkdir(fileName)
-        response = {"message": "File uploaded"}
+    if '/' in fileName:  # Return 400 BAD REQUEST
+        abort(400, "No SubDir's Allowed")
+
+    with open(os.path.join(app.config['UPLOAD_DIRECTORY'], fileName), 'wb') as fp:
+        fp.write(request.data)
+
     return jsonify (response), 200
 
 
