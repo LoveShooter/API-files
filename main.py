@@ -18,7 +18,13 @@ if not os.path.exists(app.config['UPLOAD_DIRECTORY']):
     os.makedirs(app.config['UPLOAD_DIRECTORY'])
 
 
-#app = Flask(__name__)
+#app = Flask(__name__)``
+
+@app.route('/', methods=['GET'])
+def hellowrld():
+    response = {"message": "Hello World!"}
+    return jsonify(response)
+
 
 
 @app.route('/files', methods=['GET'])   # Endpoint to list files on the server
@@ -159,6 +165,9 @@ def delAllEmptyDirs():
             os.rmdir(pathToDirs)
             response = {"message": "All Folders deleted"}    # ?
     return jsonify(response)
+
+
+@app.route('/upload-folder/', methods=['POST, GET'])
 
 
 
