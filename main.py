@@ -23,7 +23,7 @@ if not os.path.exists(app.config['UPLOAD_DIRECTORY']):
 @app.route('/', methods=['GET'])
 def hellowrld():
     response = {"message": "Hello World!"}
-    return jsonify(response)
+    return jsonify(response), 200
 
 
 
@@ -167,7 +167,7 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/', methods=['POST, GET'])
+@app.route('/upload-folder/<dirname>/<filename>', methods=['POST, GET'])
 
 
 
