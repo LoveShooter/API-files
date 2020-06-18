@@ -21,9 +21,8 @@ if not os.path.exists(app.config['UPLOAD_DIRECTORY']):
 #app = Flask(__name__)``
 
 @app.route('/', methods=['GET'])
-def hellowrld():
-    response = {"message": "Hello World!"}
-    return jsonify(response), 200
+def home():
+    return "Hello World!"
 
 
 
@@ -72,7 +71,7 @@ def delFile(filename):
 
 
 @app.route('/multiple-files-upload', methods=['POST'])
-def upload_file():
+def uploadFiles():
 	# check if the post request has the file part
 	if 'files[]' not in request.files:
 		resp = jsonify({'message' : 'No file part in the request'})
@@ -167,8 +166,25 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/<dirname>/<filename>', methods=['POST, GET'])
-
+@app.route('/upload-folder/<dirName>/<fileName>', methods=['POST, GET'])
+def uploadFolders(dirName):
+    filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
+    if os.path.exists(dirName):
+        response = {"message": "Folder already exists!"}
+    else:
+        os.chdir(filePath)
+        os.mkdir(dirName)
+        response = {"message": "Folder Uploaded"}
+    return jsonify (response), 200
+def uploadFile(fileName):
+    filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
+    if os.path.exists(fileName):
+        response = {"message": "File already exists!"}
+    else:
+        os.chdir(filePath)
+        os.mkdir(fileName)
+        response = {"message": "File uploaded"}
+    return jsonify (response), 200
 
 
 
