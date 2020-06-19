@@ -170,14 +170,11 @@ def delAllEmptyDirs():
 def uploadFolders(dirName, fileName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
-        response = {"message": "Folder already exists!"}
+        response = {"message": "Folder already uploaded!"}
     else:
         os.chdir(filePath)
         os.mkdir(dirName)
         response = {"message": "Folder Uploaded"}
-    if '/' in fileName:  # Return 400 BAD REQUEST
-        abort(400, "No SubDir's Allowed")
-
     with open(os.path.join(app.config['UPLOAD_DIRECTORY'], fileName), 'wb') as fp:
         fp.write(request.data)
 
