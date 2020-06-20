@@ -166,7 +166,7 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/<dirName>', methods=['POST'])
+@app.route('/upload-folder/<dirName>/', methods=['POST'])
 def uploadFolders(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
@@ -176,15 +176,19 @@ def uploadFolders(dirName):
         os.mkdir(dirName)
         response = {"message": "Folder Uploaded"}
     return jsonify(response)
+    
+    os.chdir(os.path.join(filePath, dirName))
 
     if 'files[]' not in request.files:
-        resp = jsonify({"message": "No file part in the request"})
+        resp = jsonify({'message' : 'No file part in the request'})
         resp.status_code = 400
         return resp
+        
+    files = request.files.getlist('files[]')
 	
-    files = request.files.getlist("files[]")
     errors = {}
     success = False
+	
     for file in files:
         if file and allowed_file(file.filename):   #allowed_file(filename) to allow user only upload allowed file types
             filename = secure_filename(file.filename)
@@ -192,9 +196,9 @@ def uploadFolders(dirName):
             success = True
         else:
             errors[file.filename] = 'File type is not allowed'
-
+    
     if success:
-        response = jsonify({'message': 'Files successfully uploaded'})
+        response = jsonify({'message' : 'Files successfully uploaded'})
         response.status_code = 201
         return response
     else:
