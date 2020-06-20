@@ -175,7 +175,8 @@ def uploadFolders(dirName):
         os.chdir(filePath)
         os.mkdir(dirName)
         response = {"message": "Folder Uploaded"}
-        
+    return jsonify(response)
+
     if 'files[]' not in request.files:
         resp = jsonify({"message": "No file part in the request"})
         resp.status_code = 400
