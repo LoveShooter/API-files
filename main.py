@@ -166,7 +166,7 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/<dirName>/', methods=['POST'])
+@app.route('/upload-folder/<dirName>', methods=['POST'])
 def uploadFolders(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
