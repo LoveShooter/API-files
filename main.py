@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 #UPLOAD_DIRECTORY = "g:/OneDrive/coding/python/PythonPractice/testfolder/api_uploaded_files"
 #print(os.getcwd()) # Show work dir
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif']) 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'ini']) 
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -166,8 +166,8 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
-@app.route('/upload-folder/<dirName>/<fileName>', methods=['POST'])
-def uploadFolders(dirName, fileName):
+@app.route('/upload-folder/<dirName>', methods=['POST'])
+def uploadFolders(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
         response = {"message": "Folder already uploaded!"}
@@ -175,10 +175,33 @@ def uploadFolders(dirName, fileName):
         os.chdir(filePath)
         os.mkdir(dirName)
         response = {"message": "Folder Uploaded"}
-    with open(os.path.join(app.config['UPLOAD_DIRECTORY'], fileName), 'wb') as fp:
-        fp.write(request.data)
+        
+    if 'files[]' not in request.files:
+        resp = jsonify({"message": "No file part in the request"})
+        resp.status_code = 400
+        return resp
+	
+    files = request.files.getlist("files[]")
+    errors = {}
+    success = False
+    for file in files:
+        if file and allowed_file(file.filename):   #allowed_file(filename) to allow user only upload allowed file types
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], filename))
+            success = True
+        else:
+            errors[file.filename] = 'File type is not allowed'
 
-    return jsonify (response), 200
+    if success:
+        response = jsonify({'message': 'Files successfully uploaded'})
+        response.status_code = 201
+        return response
+    else:
+        response = jsonify(errors)
+        response.status_code = 500
+        return response
+        
+    #return jsonify (response), 200
 
 
 
