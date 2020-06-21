@@ -178,6 +178,8 @@ def uploadFolders(dirName):
     return jsonify(response)
     
     os.chdir(os.path.join(filePath, dirName))
+    
+def uploadFiles():
 
     if 'files[]' not in request.files:
         resp = jsonify({'message' : 'No file part in the request'})
