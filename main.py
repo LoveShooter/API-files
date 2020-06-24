@@ -44,7 +44,6 @@ def getFile(path):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], path, as_attachment=True)
 
 
-
 @app.route('/files/<filename>', methods=['POST']) # Upload File
 def postFile(filename):
     if '/' in filename:  # Return 400 BAD REQUEST
@@ -179,7 +178,6 @@ def uploadFolders(dirName):
     
     os.chdir(os.path.join(filePath, dirName))
     
-def uploadFiles():
 
     if 'files[]' not in request.files:
         resp = jsonify({'message' : 'No file part in the request'})
