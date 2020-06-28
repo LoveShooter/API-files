@@ -176,7 +176,7 @@ def uploadFolders(dirName):
         pathNewFld = os.path.abspath(dirName)
         os.chdir(pathNewFld)
         newPath = os.getcwd()
-        response = {"message": "Folder Uploaded"}
+
 
 
     files = request.files.getlist('files[]')
@@ -193,7 +193,7 @@ def uploadFolders(dirName):
             errors[file.filename] = 'File type is not allowed'
     
     if success:
-        response = jsonify({'message' : 'Files successfully uploaded'})
+        response = jsonify({'message' : 'Folder successfully uploaded!'})
         response.status_code = 201
         return response
     else:
