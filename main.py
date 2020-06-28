@@ -114,7 +114,7 @@ def listFolders():
 
 
 @app.route('/create-folder/<dirName>', methods=['GET'])   # Creates 1 folder with a name entry
-def createFolders(dirName):
+def createFolder(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
     if os.path.exists(dirName):
         response = {"message": "Folder already exists!"}
@@ -123,6 +123,20 @@ def createFolders(dirName):
         os.mkdir(dirName)
         response = {"message": "Folder created"}
     return jsonify (response), 200
+
+
+@app.route('/create-folders/<dirName>/<dirName2>', methods=['GET'])   # Creates 2 folder with a name entry
+def createFolders(dirName, dirName2):
+    filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
+    if os.path.exists(dirName):
+        response = {"message": "Folders already exists!"}
+    else:
+        os.chdir(filePath)
+        os.mkdir(dirName)
+        os.mkdir(dirName2)
+        response = {"message": "Folders created"}
+    return jsonify (response), 200
+
 
 
 
