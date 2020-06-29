@@ -128,7 +128,7 @@ def createFolder(dirName):
 @app.route('/create-folders/<dirName>/<dirName2>', methods=['GET'])   # Creates 2 folder with a name entry
 def createFolders(dirName, dirName2):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
-    if os.path.exists(dirName):
+    if os.path.exists(dirName) or os.path.exists(dirName2):
         response = {"message": "Folders already exists!"}
     else:
         os.chdir(filePath)
