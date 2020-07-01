@@ -218,19 +218,16 @@ def uploadFolders(dirName):
     #return jsonify (response), 200
 
 
-@app.route('/create-multiple-folders/<folders>', methods=['GET']) 
+@app.route('/create-multiple-folders/<folders>', methods=['POST']) 
 def createMultipleFolders(folders): 
-
-    folders = [] 
-
-    for folder in folders: 
+    os.chdir(app.config['UPLOAD_DIRECTORY'])
+    for folder in folders:
         if os.path.exists(folder): 
             response = {"Folders already exists!"} 
         else: 
-            os.chdir(app.config['UPLOAD_DIRECTORY']) 
             os.mkdir(folder)
             response = {"Folders created successfully"} 
-        return response 
+        return jsonify(response) 
 
 
 
