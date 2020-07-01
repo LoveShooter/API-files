@@ -44,6 +44,7 @@ def getFile(path):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], path, as_attachment=True)
 
 
+
 @app.route('/files/<filename>', methods=['POST']) # Upload File
 def postFile(filename):
     if '/' in filename:  # Return 400 BAD REQUEST
@@ -125,6 +126,7 @@ def createFolder(dirName):
     return jsonify (response), 200
 
 
+
 @app.route('/create-folders/<dirName>/<dirName2>', methods=['GET'])   # Creates 2 folder with a name entry
 def createFolders(dirName, dirName2):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
@@ -136,7 +138,6 @@ def createFolders(dirName, dirName2):
         os.mkdir(dirName2)
         response = {"message": "Folders created"}
     return jsonify (response), 200
-
 
 
 
@@ -179,6 +180,7 @@ def delAllEmptyDirs():
     return jsonify(response)
 
 
+
 @app.route('/upload-folder/<string:dirName>', methods=['POST'])
 def uploadFolders(dirName):
     filePath = os.path.join(app.config['UPLOAD_DIRECTORY'])
@@ -190,8 +192,6 @@ def uploadFolders(dirName):
         pathNewFld = os.path.abspath(dirName)
         os.chdir(pathNewFld)
         newPath = os.getcwd()
-
-
 
     files = request.files.getlist('files[]')
 	
@@ -216,6 +216,21 @@ def uploadFolders(dirName):
         return response
         
     #return jsonify (response), 200
+
+
+@app.route('/create-multiple-folders/<folders>', methods=['GET']) 
+def createMultipleFolders(folders): 
+
+    folders = [] 
+
+    for folder in folders: 
+        if os.path.exists(folder): 
+            response = {"Folders already exists!"} 
+        else: 
+            os.chdir(app.config['UPLOAD_DIRECTORY']) 
+            os.mkdir(folder)
+            response = {"Folders created successfully"} 
+        return response 
 
 
 
