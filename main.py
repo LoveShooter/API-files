@@ -1,6 +1,5 @@
 import os
 import shutil
-import json, bson
 from app import app
 
 from flask import Flask, request, redirect, abort, jsonify, send_from_directory
@@ -228,7 +227,7 @@ def createMultipleFolders(folders):
             response = {"Folders created successfully"}
         else:
             response = {"Folders already exists!"}
-        return jsonify(response) 
+    return jsonify(response) 
 
 
 
