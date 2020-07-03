@@ -225,9 +225,9 @@ def createMultipleFolders(folders):
     for folder in folders:
         if not os.path.exists(folder):
             os.mkdir(folder)
-            response = {"Folders", folder, "created successfully"}
+            response = {"Folders created successfully"}
         else:
-            response = {"Folders", folder, "already exists!"}
+            response = {"Folders already exists!"}
         return jsonify(response) 
 
 
