@@ -1,5 +1,6 @@
 import os
 import shutil
+import json, bson
 from app import app
 
 from flask import Flask, request, redirect, abort, jsonify, send_from_directory
@@ -222,11 +223,11 @@ def uploadFolders(dirName):
 def createMultipleFolders(folders): 
     os.chdir(app.config['UPLOAD_DIRECTORY'])
     for folder in folders:
-        if os.path.exists(folder): 
-            response = {"Folders already exists!"} 
-        else: 
+        if not os.path.exists(folder):
             os.mkdir(folder)
-            response = {"Folders created successfully"} 
+            response = {"Folders", folder, "created successfully"}
+        else:
+            response = {"Folders", folder, "already exists!"}
         return jsonify(response) 
 
 
