@@ -231,11 +231,12 @@ def createMultipleFolders(folders):
 
 
 
-app.route('/create-folders-multiple/<pathDirs:pathDirs>', methods=['GET'])
-def createDirsRecursively(pathDirs):
+app.route('/create-folders-multiple/<path:newPath>', methods=['GET'])
+def createDirsRecursively(newPath):
     os.chdir(app.config['UPLOAD_DIRECTORY'])
-    if not os.path.exists(pathDirs):
-        os.makedirs(pathDirs)
+    myPath = os.path.join(app.config['UPLOAD_DIRECTORY'], newPath)
+    if not os.path.exists(myPath):
+        os.makedirs(myPath)
         response = {"Folders created!"}
     else:
         response = {"Folders already exists!"}
