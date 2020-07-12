@@ -231,18 +231,28 @@ def createMultipleFolders(folders):
 
 
 
-app.route('/create-folders-multiple/<path:newPath>', methods=['GET'])
-def createDirsRecursively(newPath):
+app.route('/create-folder-tree/<root_dir>/<main_dir>/<dir_names>', methods=['GET'])
+def createDirsTree(root_dir, main_dir, dir_names):
+    # Create directory
     os.chdir(app.config['UPLOAD_DIRECTORY'])
-    myPath = os.path.join(app.config['UPLOAD_DIRECTORY'], newPath)
-    if not os.path.exists(myPath):
-        os.makedirs(myPath)
-        response = {"Folders created!"}
-    else:
-        response = {"Folders already exists!"}
+    for i in range(0, len(main_dir)):
+        for j in range(0,len(main_dir[i])):
+            dirName = str(root_dir) + '/' + str(main_dir[i][j])
+            
+            try:
+                # Create target Directory
+                os.makedirs(dirName)
+                response = {"Directory " , dirName ,  " Created "} 
+            except FileExistsError:
+                response = {"Directory " , dirName ,  " already exists"}        
+
+            # Create target Directory if don't exist
+            if not os.path.exists(dirName):
+                os.makedirs(dirName)
+                response = {"Directory " , dirName ,  " Created "}
+            else:    
+                response = {"Directory " , dirName ,  " already exists"}
     return jsonify(response)
-
-
 
 
 
