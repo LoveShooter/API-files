@@ -231,7 +231,7 @@ def createMultipleFolders(folders):
 
 
 
-app.route('/create-folder-tree/<root_dir>/<main_dir>/<dir_names>', methods=['GET'])
+@app.route('/create-folder-tree/<root_dir>/<main_dir>/<dir_names>', methods=['GET'])
 def createDirsTree(root_dir, main_dir, dir_names):
     # Create directory
     os.chdir(app.config['UPLOAD_DIRECTORY'])
