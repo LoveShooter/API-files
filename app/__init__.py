@@ -1,6 +1,6 @@
 from flask import Flask
 
-UPLOAD_DIRECTORY = "g:/OneDrive/coding/python/PythonPractice/testfolder/api_uploaded_files"
+UPLOAD_DIRECTORY = "/usr/src/"
 
 app = Flask(__name__)
 

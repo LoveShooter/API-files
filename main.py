@@ -18,7 +18,7 @@ if not os.path.exists(app.config['UPLOAD_DIRECTORY']):
     os.makedirs(app.config['UPLOAD_DIRECTORY'])
 
 
-#app = Flask(__name__)``
+#app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
