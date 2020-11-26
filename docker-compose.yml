@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  api-files:
+    restart: always
+    image: api-files
+    container_name: api-files-test
+    #environment:
+    ports:
+      - "8000:8000"
+    #networks:
+    #  - api-files
+
+#networks:
+#  api-files:
+#    external: true
